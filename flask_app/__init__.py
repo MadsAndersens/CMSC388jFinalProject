@@ -19,7 +19,7 @@ app.config["SECRET_KEY"] = b'\xde\xb0"\x9d!\x13nElU\xb9\x84/\xf2z\xe2'
 
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SAMESITE="Lax"
 )
 
 db = MongoEngine(app)
