@@ -19,7 +19,7 @@ from . import app, bcrypt
 
 '''View functions for the Flask app'''
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     return render_template("index.html")
 
@@ -35,6 +35,6 @@ def register():
 def logout():
     return render_template("index.html")
 
-@app.route("/profile")
-def profile():
-    return render_template("profile.html")
+@app.route("/profile/<username>")
+def profile(username):
+    return render_template("profile.html", username=username)

@@ -13,3 +13,32 @@ from wtforms.validators import (
     ValidationError,
 )
 
+from .models import User
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[InputRequired(), Email()])
+    password = StringField("Password", validators=[InputRequired()])
+    submit = SubmitField("Login")
+
+class RegisterForm(FlaskForm):
+    username = StringField("Username", validators=[InputRequired(), Length(min=4, max=15)])
+    email = StringField("Email", validators=[InputRequired(), Email()])
+    password = StringField("Password", validators=[InputRequired()])
+    submit = SubmitField("Register")
+    def validate_username(self, username):
+        user = User.objects(username=username.data).first()
+        if user is not None:
+            raise ValidationError("Username is taken")
+    def validate_email(self, email):
+        user = User.objects(email=email.data).first()
+        if user is not None:
+            raise ValidationError("Email is taken")
+class QuestionForm(FlaskForm):
+    title = StringField("Title", validators=[InputRequired()])
+    description = TextAreaField("Description", validators=[InputRequired()])
+    submit = SubmitField("Submit")
+
+class AnswerForm(FlaskForm):
+    answer = TextAreaField("Answer", validators=[InputRequired()])
+    submit = SubmitField("Submit")
+

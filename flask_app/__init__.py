@@ -13,10 +13,9 @@ from werkzeug.utils import secure_filename
 # stdlib
 import os
 from datetime import datetime
-
 app = Flask(__name__)
-app.config["MONGODB_HOST"] = "mongodb://localhost:27017/project_4"
-app.config["SECRET_KEY"] = ""
+app.config["MONGODB_HOST"] = "mongodb://localhost:27017/FinalProject"
+app.config["SECRET_KEY"] = b'\xde\xb0"\x9d!\x13nElU\xb9\x84/\xf2z\xe2'
 
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
