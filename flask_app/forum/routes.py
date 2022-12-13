@@ -18,4 +18,11 @@ def index():
 
 @forum.route("/results/<query>", methods=["GET"])
 def search_results(query):
+    try: 
+        result = forum_client.search(query)
+    except ValueError as e:
+        flash(str(e))
+        return redirect(url_for("main.index"))
+    
+    return render_template("query.html")
     # TODO: Add search_results and html page
