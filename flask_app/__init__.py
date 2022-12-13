@@ -13,16 +13,31 @@ from werkzeug.utils import secure_filename
 # stdlib
 import os
 from datetime import datetime
-app = Flask(__name__)
-app.config["MONGODB_HOST"] = "mongodb://localhost:27017/FinalProject"
-app.config["SECRET_KEY"] = b'\xde\xb0"\x9d!\x13nElU\xb9\x84/\xf2z\xe2'
 
-app.config.update(
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax"
-)
+from .users.routes import users
+from .forum.routes import forum
 
-db = MongoEngine(app)
-login_manager = LoginManager(app)
-login_manager.login_view = "login"
-bcrypt = Bcrypt(app)
+db = MongoEngine()
+login_manager = LoginManager()
+bcrypt = Bcrypt()
+
+def create_app():
+    app = Flask(__name__)
+
+    app.config.from_pyfile("config.py", silent=False)
+    app.config.update(
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax"
+    )
+
+    db.init_app(app)
+    login_manager.init_app(app)
+    bcrypt.init_app(app)
+
+    app.register_blueprint(users)
+    app.register_blueprint(forum)
+    app.register_error_handler(404, page_not_found)
+
+    login_manager.login_view = "users.login"
+
+    return app
