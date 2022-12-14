@@ -2,7 +2,7 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
-from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField
+from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField, EmailField
 from wtforms.validators import (
     InputRequired,
     DataRequired,
@@ -27,6 +27,7 @@ class RegisterForm(FlaskForm):
     confirm_password = PasswordField(
         "Retype Password", validators=[InputRequired(), EqualTo("password")]
     )
+    about_me = StringField("About Me", validators = [])
     submit = SubmitField("Register")
 
     def validate_username(self, username):
