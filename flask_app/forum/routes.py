@@ -55,13 +55,17 @@ def make_post():
 @forum.route("/posts/<post_title>", methods = ["GET","POST"])
 @login_required
 def make_reply(post_title):
-    
+    try:
+        result = Question.objects(title = post_title)
+    except ValueError as e:
+        flash(str(e))
+        return redirect(url_for("forum.login"))
     # TODO make sure the below works
     form = AnswerForm()
     if form.validate_on_submit() and current_user.is_authenticated:
         post = Answer(
             commenter=current_user._get_current_object(),
-            title=form.title.data,
+            question = Question.objects(title = post_title),
             description = form.description.data,
             date = current_time()
         )
@@ -69,8 +73,8 @@ def make_reply(post_title):
 
         return redirect(request.path)
 
-    # TODO Figure out what questions should be...
-    answers = Answer.objects(title = post_title)
+    # TODO Figure out what answers should be...
+    answers = Answer.objects(question = Question.objects(title = post_title))
     
     # TODO render appropriate template with corresponding data for it
     return render_template(
