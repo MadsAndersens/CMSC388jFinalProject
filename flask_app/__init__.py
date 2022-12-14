@@ -15,8 +15,6 @@ from flask_talisman import Talisman
 import os
 from datetime import datetime
 
-from .loginregistration.routes import loginreg
-
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
