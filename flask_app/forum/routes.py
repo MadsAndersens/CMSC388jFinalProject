@@ -35,7 +35,7 @@ def make_post():
     form = QuestionForm()
     if form.validate_on_submit() and current_user.is_authenticated:
         post= Question(
-            commenter=current_user._get_current_object(),
+            commenter = current_user._get_current_object(),
             title=form.title.data,
             description = form.description.data,
             date = current_time()

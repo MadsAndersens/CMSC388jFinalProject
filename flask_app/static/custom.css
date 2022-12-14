@@ -1,0 +1,21 @@
+#Define styles for the page
+body {
+    background-color: #f0f0f0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-repeat: repeat;
+}
+
+#Define styles for the header
+header {
+    background-color: #fff;
+    border-bottom: 1px solid #e7e7e7;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.row {
+  margin-top: 50px;
+}
