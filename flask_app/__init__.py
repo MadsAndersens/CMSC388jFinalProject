@@ -27,6 +27,8 @@ def create_app():
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax"
     )
+    #set secret key
+    app.config['SECRET_KEY'] = b'\xe3\x9eap\x9b\xd1\xa4\xbe\x9f\x1b\xad\xfaq;6A'
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -44,5 +46,5 @@ def create_app():
     app.register_error_handler(404, page_not_found)
 
     login_manager.login_view = "users.login"
-
+    #print(app.url_map)
     return app

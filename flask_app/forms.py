@@ -59,7 +59,3 @@ class QuestionForm(FlaskForm):
 class AnswerForm(FlaskForm):
     answer = TextAreaField("Answer", validators=[InputRequired()])
     submit = SubmitField("Submit")
-
-class SearchForm(FlaskForm):
-    search = StringField("Search", validators=[InputRequired()])
-    submit = SubmitField("Submit")
