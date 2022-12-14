@@ -7,7 +7,7 @@ from flask_app.forms import SearchForm, QuestionForm
 from ..models import User, Question, Answer
 from flask_app import db
 from datetime import datetime
-from .utils import current_time
+from flask_app.utils import current_time
 
 
 forum = Blueprint("forum", __name__)

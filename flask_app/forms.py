@@ -62,5 +62,5 @@ class AnswerForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class SearchForm(FlaskForm):
-    search = StringField("Search", validators=[InputRequired()])
+    search_query = StringField("Search", validators=[InputRequired()])
     submit = SubmitField("Submit")
