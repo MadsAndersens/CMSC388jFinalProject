@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, url_for, redirect, request, flash
-from flask_mail import Mail
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_mongoengine import MongoEngine
 from .. import bcrypt
@@ -11,8 +10,6 @@ from flask_app.utils import current_time
 
 
 forum = Blueprint("forum", __name__)
-
-mail = Mail(forum)
 
 @forum.route("/")
 @forum.route("/forum")
@@ -30,7 +27,7 @@ def search_results(query):
     return render_template("search_results.html", results=results)
 
 # TODO make sure the route is correct
-@forum.route("posts/<post_title>", methods = ["GET","POST"])
+@forum.route("/posts/<post_title>", methods = ["GET","POST"])
 @login_required
 def make_post():
 

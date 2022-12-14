@@ -10,6 +10,7 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 from flask_talisman import Talisman
+from flask_mail import Mail
 
 # stdlib
 import os
@@ -34,6 +35,7 @@ def create_app():
     from .loginregistration.routes import loginreg
 
     db.init_app(app)
+    mail = Mail(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
     Talisman(app)
