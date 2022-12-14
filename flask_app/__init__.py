@@ -42,9 +42,9 @@ def create_app():
     app.register_blueprint(profile)
     app.register_blueprint(forum)
 
-
-
-
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
     app.register_error_handler(404, page_not_found)
 
     login_manager.login_view = "users.login"
