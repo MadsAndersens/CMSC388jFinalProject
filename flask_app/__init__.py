@@ -15,8 +15,6 @@ import os
 from datetime import datetime
 
 from .loginregistration.routes import loginreg
-from .profile.routes import profile
-from .forum.routes import forum
 
 db = MongoEngine()
 login_manager = LoginManager()
@@ -30,6 +28,11 @@ def create_app():
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax"
     )
+    app.config['SECRET_KEY'] = b'\xe3\x9eap\x9b\xd1\xa4\xbe\x9f\x1b\xad\xfaq;6A'
+
+    from .profile.routes import profile
+    from .forum.routes import forum
+    from .loginregistration.routes import loginreg
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -38,6 +41,10 @@ def create_app():
     app.register_blueprint(loginreg)
     app.register_blueprint(profile)
     app.register_blueprint(forum)
+
+
+
+
     app.register_error_handler(404, page_not_found)
 
     login_manager.login_view = "users.login"
