@@ -14,7 +14,8 @@ from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
 
-from .users.routes import users
+from .loginregistration.routes import loginreg
+from .profile.routes import profile
 from .forum.routes import forum
 
 db = MongoEngine()
@@ -34,7 +35,8 @@ def create_app():
     login_manager.init_app(app)
     bcrypt.init_app(app)
 
-    app.register_blueprint(users)
+    app.register_blueprint(loginreg)
+    app.register_blueprint(profile)
     app.register_blueprint(forum)
     app.register_error_handler(404, page_not_found)
 
