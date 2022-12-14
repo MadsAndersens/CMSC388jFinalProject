@@ -14,12 +14,10 @@ from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
 
-from .users.routes import users
-from .forum.routes import forum
-
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+
 
 def create_app():
     app = Flask(__name__)
@@ -33,6 +31,13 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
+
+    #Import here to avoid circular imports
+    from .users.routes import users
+    from .forum.routes import forum
 
     app.register_blueprint(users)
     app.register_blueprint(forum)

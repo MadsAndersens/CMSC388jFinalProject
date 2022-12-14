@@ -11,11 +11,15 @@ forum = Blueprint("forum", __name__)
 def index():
     search_form = SearchForm()
 
-    if form.validate_on_submit():
+    if search_form.validate_on_submit():
         return redirect(url_for("forum.search_results", query=search_form.search.data))
 
-    return render_template("index.html", form=search_form)
+    return render_template("index.html", form = search_form)
 
 @forum.route("/results/<query>", methods=["GET"])
 def search_results(query):
     # TODO: Add search_results and html page
+    pass
+
+
+
