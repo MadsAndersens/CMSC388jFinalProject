@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, url_for, redirect, request, flash
+from flask import Blueprint, render_template, url_for, redirect, request, flash, Flask
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_mongoengine import MongoEngine
+from flask_mail import Mail, Message
 from .. import bcrypt
 from flask_app.forms import SearchForm, QuestionForm, AnswerForm,LikesForm
 from ..models import User, Question, Answer
@@ -9,6 +10,22 @@ from datetime import datetime
 from flask_app.utils import current_time
 
 forum = Blueprint("forum", __name__)
+
+app = Flask("App")
+mail = Mail(app)
+
+MAIL_USERNAME = "YOUR EMAIL HERE" #'yourId@gmail.com'
+MAIL_PASSWORD = "YOUR PASSWORD HERE" # password don't merge if using your own
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+# Enter your own email credentials here for testing and remove
+# before pushing on github
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 
 @forum.route("/", methods=["GET", "POST"])
@@ -45,6 +62,12 @@ def see_question(question_id):
         answer.save()
         question.answers.append(answer)
         question.save()
+
+        # Send email to person who asked question that a user answered
+        msg = Message('Hello', sender = 'yourId@gmail.com', recipients = [question.commenter.email])
+        msg.body = answer.commenter.username + "responded to your question!"
+        mail.send(msg)
+
         return redirect(url_for("forum.see_question", question_id=question_id))
 
     if likes_form.validate_on_submit():
