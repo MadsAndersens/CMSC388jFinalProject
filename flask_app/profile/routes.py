@@ -16,7 +16,9 @@ def account():
     user = User.objects(username=current_user.username).first()
     questions = Question.objects(commenter=user)
     answers = Answer.objects(commenter=user)
-    likes_plot = likes_over_time(user.likes_over_time)
+
+    likes_plot = likes_over_time(user.likes_over_time) if len(user.likes_over_time) != 0 else None
+
 
     if profile_form.validate_on_submit():
         current_user.modify(username=profile_form.username.data)

@@ -28,7 +28,7 @@ def create_app():
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax"
     )
-    app.config['SECRET_KEY'] = b'\xe3\x9eap\x9b\xd1\xa4\xbe\x9f\x1b\xad\xfaq;6A'
+    app.config['SECRET_KEY'] = b'\xe4\x9eap\x9b\xd1\xa4\xbe\x9f\x1b\xad\xfaq;6A'
 
     from .profile.routes import profile
     from .forum.routes import forum
