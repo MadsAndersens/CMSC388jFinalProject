@@ -58,11 +58,9 @@
         </ul>
     </div>
     <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-        {% if likes_plot %}
+        {% if likes_present %}
             <h1> Likes over time </h1>
-            <canvas id="myChart" width="400" height="400">
-                {{ likes_plot.show() }}
-            </canvas>
+
         {% else %}
             <h3> No likes to show yet </h3>
         {% endif %}

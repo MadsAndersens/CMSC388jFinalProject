@@ -40,13 +40,14 @@ def create_app():
     bcrypt.init_app(app)
 
     #This allows us to still use the js scripts
-    csp = {
-        'script-src': ["https://code.jquery.com/jquery-3.4.1.slim.min.js",
-                       "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js",
-                       "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"]
-    }
+    #csp = {
+       # 'script-src': ["https://code.jquery.com/jquery-3.4.1.slim.min.js",
+      #                 "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js",
+     #                  "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js",
+    #                   "h#ttps://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"]
+   # }
 
-    Talisman(app, content_security_policy=csp)
+    #Talisman(app, content_security_policy=csp)
 
     app.register_blueprint(loginreg)
     app.register_blueprint(profile)
