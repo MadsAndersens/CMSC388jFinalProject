@@ -10,6 +10,7 @@ import base64
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import seaborn as sns
+import matplotlib
 
 profile = Blueprint("profile", __name__)
 
@@ -22,6 +23,16 @@ def account():
     questions = Question.objects(commenter=user)
     answers = Answer.objects(commenter=user)
     likes_present = False if user.total_likes == 0 else True
+    #Get likes over time
+    likes_over_time = user.likes_over_time
+    if len(likes_over_time) > 0:
+        x = likes_over_time[0][:]
+        y = likes_over_time[1][:]
+    else:
+        x = None
+        y = None
+
+
 
     if profile_form.validate_on_submit():
         current_user.modify(username=profile_form.username.data)
@@ -34,16 +45,22 @@ def account():
                            profile_form=profile_form,
                            questions=questions,
                            answers=answers,
-                           likes_present=likes_present)
+                           likes_present=likes_present,
+                           x = x,
+                           y = y)
 
 @profile.route("/vizualise_likes", methods=["GET", "POST"])
 @login_required
 def vizualise_likes():
+    matplotlib.use('SVG')
+    fig,ax = plt.subplots(figsize=(10,5))
     user = User.objects(username=current_user.username).first()
     list_of_likes = user.likes_over_time
-    x = list_of_likes[:][0]
-    y = list_of_likes[:][1]
-    fig = sns.lineplot(x=x, y=y)
+    x = [date[0] for date in list_of_likes]
+    y = [date[1] for date in list_of_likes]
+    print(x)
+    sns.lineplot(x=x, y=y,ci=None)
+    ax.set_xticklabels(x, rotation=45)
     canvas = FigureCanvas(fig)
     img = io.BytesIO()
     fig.savefig(img, format='png')

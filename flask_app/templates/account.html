@@ -60,7 +60,9 @@
     <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
         {% if likes_present %}
             <h1> Likes over time </h1>
-
+            <div id="chart_div">
+                <img src="{{ url_for('profile.vizualise_likes') }}" alt="Seaborn plot">
+            </div>
         {% else %}
             <h3> No likes to show yet </h3>
         {% endif %}
