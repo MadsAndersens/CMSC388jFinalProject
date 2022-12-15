@@ -1,6 +1,6 @@
 {% extends "header.html" %}
 {% block content %}
-    <div class="row">
+<div class="row">
   <div class="col">
     <div class="card text-center">
       <div class="card-header">
@@ -8,7 +8,8 @@
       </div>
         <div class="card-header">
          (Posted on: {{question.date }})
-      </div>
+            Likes: {{question.likes}}
+        </div>
       <div class="card-body">
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><b>Question By:</b> {{ question.commenter.username}}</li>
@@ -17,14 +18,25 @@
       </div>
     </div>
   </div>
+ {# Create like button #}
+<div class="row">
+    <div class="form-group">
+        <form method="post">
+        {{ likes_form.csrf_token }}
+        {{ likes_form.submit(class="form-control form-control-lg") }}
+        </form>
+    </div>
 </div>
+</div>
+
+
     {# Render the answer form #}
     {% if current_user.is_authenticated %}
     <div class="row">
       <div class="col">
         <div class="card text-center">
           <div class="card-header">
-            Answer
+            Give your answer here:
           </div>
           <div class="card-body">
             <form method="post">
@@ -42,9 +54,6 @@
     <div class="row">
       <div class="col">
         <div class="card text-center">
-          <div class="card-header">
-            Answer
-          </div>
           <div class="card-body">
             <p>Please login to answer this question</p>
           </div>
@@ -52,9 +61,40 @@
       </div>
     </div>
     {% endif %}
+
     {# Render the answers #}
+{% if answers%}
     {% for answer in answers %}
-    {# Render the answers #}
-
-
+    <div class="row">
+      <div class="col">
+        <div class="card text-center">
+           <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><b>Answer By:</b> {{ answer.commenter.username}}</li>
+            </ul>
+           </div>
+            <div class="card-header">
+             (Posted on: {{answer.date}})
+            </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{ question.commenter.username}}'s answer:</li>
+            </ul>
+              {{ answer.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="row">
+      <div class="col">
+        <div class="card text-center">
+          <div class="card-body">
+            <p>No answers yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endif %}
 {% endblock %}

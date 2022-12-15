@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_mongoengine import MongoEngine
 from .. import bcrypt
-from flask_app.forms import SearchForm, QuestionForm, AnswerForm
+from flask_app.forms import SearchForm, QuestionForm, AnswerForm,LikesForm
 from ..models import User, Question, Answer
 from flask_app import db
 from datetime import datetime
@@ -34,6 +34,7 @@ def search_results(query):
 def see_question(question_id):
     question = Question.objects(id=question_id).first()
     answer_form = AnswerForm()
+    likes_form = LikesForm()
     if answer_form.validate_on_submit():
         answer = Answer(
             commenter=current_user,
@@ -42,9 +43,24 @@ def see_question(question_id):
             date=current_time(),
         )
         answer.save()
+        question.answers.append(answer)
+        question.save()
         return redirect(url_for("forum.see_question", question_id=question_id))
 
-    return render_template("see_question.html", question=question, answer_form=answer_form)
+    if likes_form.validate_on_submit():
+        question.likes += 1
+        question.save()
+        # Find the user who made the post and increment their total likes
+        user = User.objects(username=question.commenter.username).first()
+        user.total_likes += 1
+        user.save()
+        return redirect(url_for("forum.see_question", question_id=question_id))
+
+    return render_template("see_question.html",
+                           question=question,
+                           answer_form=answer_form,
+                           answers=question.answers,
+                           likes_form=likes_form)
 
 # TODO make sure the route is correct
 @forum.route("/posts", methods=["GET", "POST"])
@@ -92,7 +108,6 @@ def make_reply(post_title):
             date=current_time()
         )
         post.save()
-
         return redirect(request.path)
 
     # TODO Figure out what answers should be...

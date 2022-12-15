@@ -71,3 +71,6 @@ class AnswerForm(FlaskForm):
 class SearchForm(FlaskForm):
     search_query = StringField("Search", validators=[InputRequired()])
     submit = SubmitField("Submit")
+
+class LikesForm(FlaskForm):
+    submit = SubmitField("Like")

@@ -10,6 +10,7 @@ class User(db.Document, UserMixin):
     username = db.StringField(required=True, unique=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
+    total_likes = db.IntField(default=0)
 
     # Returns unique string identifying our object
     def get_id(self):
@@ -22,6 +23,7 @@ class Question(db.Document):
     description = db.StringField(description=True)
     date = db.StringField(required=True)
     likes = db.IntField()
+    answers = db.ListField()
 
 class Answer(db.Document):
     commenter = db.ReferenceField(User, required=True)
