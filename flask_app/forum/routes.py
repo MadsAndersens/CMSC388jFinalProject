@@ -11,12 +11,13 @@ from flask_app.utils import current_time
 forum = Blueprint("forum", __name__)
 
 
-@forum.route("/")
-@forum.route("/forum")
+@forum.route("/", methods=["GET", "POST"])
+@forum.route("/forum", methods=["GET", "POST"])
 def index():
     search_form = SearchForm()
     if search_form.validate_on_submit():
         return redirect(url_for("forum.search_results", query=search_form.search_query.data))
+
     return render_template("index.html", search_form=search_form)
 
 
@@ -25,21 +26,12 @@ def see_all_questions():
     all_posts = Question.objects.all()
     return render_template("see_all_questions.html", all_posts=all_posts)
 
+#View function for searching in questions
 @forum.route("/search_results/<query>", methods=["GET", "POST"])
 def search_results(query):
-    if request.method == "POST":
-        try:
-            q = {
-                '$text': {
-                    '$search': str(query)
-                }
-            }
-            results = db.posts.find(q)
-            print(results)
-        except ValueError as e:
-            return render_template("forum.search_results.html", error_msg="No results found", query=query)
+    search_results = Question.objects(title__icontains=query)
+    return render_template("search_results.html", search_results=search_results, query=query)
 
-    return render_template("forum.search_results.html", results=results, query=query)
 
 @forum.route("/question/<question_id>", methods=["GET", "POST"])
 def see_question(question_id):

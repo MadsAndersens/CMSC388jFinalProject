@@ -57,6 +57,7 @@ class QuestionForm(FlaskForm):
     description = TextAreaField("Description", validators=[InputRequired()])
     submit = SubmitField("Submit")
 
+
 class AnswerForm(FlaskForm):
     answer = TextAreaField("Answer", validators=[InputRequired()])
     submit = SubmitField("Submit")
