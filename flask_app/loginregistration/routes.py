@@ -15,7 +15,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.objects(username=form.email.data).first()
+        user = User.objects(email=form.email.data).first()
 
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
@@ -23,7 +23,6 @@ def login():
         else:
             flash("Login failed. Check your username and/or password")
             return redirect(url_for("loginreg.login"))
-
     return render_template("login.html", title="Login", form=form)
 
 @loginreg.route("/register", methods=["GET", "POST"])

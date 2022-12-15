@@ -10,6 +10,7 @@ profile = Blueprint("profile", __name__)
 @profile.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
+    print("Test account")
     profile_form = UpdateProfileForm()
     user = User.objects(username=current_user.username).first()
     questions = Question.objects(commenter=user)

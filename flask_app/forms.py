@@ -16,9 +16,15 @@ from wtforms.validators import (
 from .models import User
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[InputRequired(), Email()])
+    email = EmailField("Email", validators=[InputRequired(), Email()])
     password = PasswordField("Password", validators=[InputRequired()])
     submit = SubmitField("Login")
+
+    def validate_email(self, email):
+        user = User.objects(email=email.data).first()
+        if user is None:
+            raise ValidationError("Email not found")
+
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired(), Length(min=4, max=15)])
