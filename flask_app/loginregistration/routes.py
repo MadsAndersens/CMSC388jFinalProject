@@ -23,7 +23,7 @@ def login():
         else:
             flash("Login failed. Check your username and/or password")
             return redirect(url_for("loginreg.login"))
-    return render_template("login.html", title="Login", form=form)
+    return render_template("login.html", form=form)
 
 @loginreg.route("/register", methods=["GET", "POST"])
 def register():
@@ -33,12 +33,12 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(username=form.username.data, email=form.email.data, password=hashed)
+        user = User(username=form.username.data, email=form.email.data, password=hashed, about_me=form.about_me.data)
         user.save()
 
         return redirect(url_for("loginreg.login"))
 
-    return render_template("register.html", title="Register", form=form)
+    return render_template("register.html", form=form)
 
 @loginreg.route("/logout")
 @login_required

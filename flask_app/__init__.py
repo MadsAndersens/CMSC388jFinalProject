@@ -58,6 +58,6 @@ def create_app():
         return render_template('404.html'), 404
     app.register_error_handler(404, page_not_found)
 
-    login_manager.login_view = "users.login"
+    login_manager.login_view = "loginreg.login"
 
     return app

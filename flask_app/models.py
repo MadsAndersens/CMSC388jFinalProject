@@ -10,6 +10,7 @@ class User(db.Document, UserMixin):
     username = db.StringField(required=True, unique=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
+    about_me = db.StringField()
     total_likes = db.IntField(default=0)
     likes_over_time = db.ListField()
 
@@ -18,7 +19,6 @@ class User(db.Document, UserMixin):
         return self.username
 
 class Question(db.Document):
-
     commenter = db.ReferenceField(User, required=True)
     title = db.StringField(required=True, unique=True)
     description = db.StringField(description=True)

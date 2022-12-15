@@ -17,7 +17,6 @@ profile = Blueprint("profile", __name__)
 @profile.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    print("Test account")
     profile_form = UpdateProfileForm()
     user = User.objects(username=current_user.username).first()
     questions = Question.objects(commenter=user)
@@ -35,13 +34,12 @@ def account():
 
 
     if profile_form.validate_on_submit():
-        current_user.modify(username=profile_form.username.data)
+        current_user.modify(username=profile_form.username.data, about_me=profile_form.about_me.data)
         current_user.save()
         return redirect(url_for("profile.account"))
 
 
     return render_template("account.html",
-                           title="Account",
                            profile_form=profile_form,
                            questions=questions,
                            answers=answers,

@@ -48,6 +48,7 @@ class RegisterForm(FlaskForm):
 
 class UpdateProfileForm(FlaskForm):
     username = StringField("New Username", validators=[InputRequired(), Length(min=4, max=15)])
+    about_me = StringField("About Me", validators = [])
     submit = SubmitField("Update")
 
     def validate_username(self, username):

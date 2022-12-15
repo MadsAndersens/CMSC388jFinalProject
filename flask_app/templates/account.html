@@ -5,67 +5,108 @@
         <h2>{{ current_user.username }}</h2>
     </div>
 </div>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="questions-tab" data-toggle="tab" href="#questions" role="tab" aria-controls="questions" aria-selected="true">Questions</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="answers-tab" data-toggle="tab" href="#answers" role="tab" aria-controls="answers" aria-selected="false">Answers</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats" aria-selected="false">Likes over time</a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="questions" role="tabpanel" aria-labelledby="questions-tab">
-        <h1> Questions <small class="float-right">{{ questions.count() }} questions asked</small></h1>
-        <ul class="media-list">
-            {% for question in questions %}
-            <li class="media review-item">
-                <div class="media-body">
-                    <span class="float-right">
-                        <small>{{ question.date }}</small>
-                    </span>
-                    <strong>
-                        {{ question.title }}
-                    </strong>
-                    <p>
-                        {{ question.description }}
-                    </p>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="tab-pane fade" id="answers" role="tabpanel" aria-labelledby="answers-tab">
-        <h1> Answers <small class="float-right">{{ answers.count() }} answers given</small></h1>
-        <ul class="media-list">
-            {% for answer in answers %}
-            <li class="media review-item">
-                <div class="media-body">
-                    <span class="float-right">
-                        <small>{{ answer.date }}</small>
-                    </span>
-                    <strong>
-                        For {{ answer.question.title }}
-                    </strong>
-                    <p>
-                        {{ answer.description }}
-                    </p>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-        {% if likes_present %}
-            <h1> Likes over time </h1>
-            <div id="chart_div">
-                <img src="{{ url_for('profile.vizualise_likes') }}" alt="Seaborn plot">
+{% if current_user.about_me %}
+<p>{{ current_user.about_me }}</p>
+{% endif %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h2>Update Profile</h2>
+                <form action="" method="post">
+                    {{ profile_form.csrf_token }}
+                    <div class="form-group">
+                        {{ profile_form.username.label(class="form-control-label") }}
+                        {{ profile_form.username(class="form-control form-control-lg") }}
+
+                        {% if profile_form.username.errors %}
+                        <div class="alert alert-warning" role="alert">
+                            {% for error in profile_form.username.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ profile_form.about_me.label(class="form-control-label") }}
+                        {{ profile_form.about_me(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="form-group">
+                        {{ profile_form.submit(class="form-control form-control-lg") }}
+                    </div>
+                </form>
             </div>
-        {% else %}
-            <h3> No likes to show yet </h3>
-        {% endif %}
+        </div>
     </div>
 </div>
-{% endblock %}
+<div class="row">
+    <div class="col">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="questions-tab" data-toggle="tab" href="#questions" role="tab"
+                    aria-controls="questions" aria-selected="true">Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="answers-tab" data-toggle="tab" href="#answers" role="tab"
+                    aria-controls="answers" aria-selected="false">Answers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats"
+                    aria-selected="false">Likes over time</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="questions" role="tabpanel" aria-labelledby="questions-tab">
+                <h1> Questions <small class="float-right">{{ questions.count() }} questions asked</small></h1>
+                <ul class="media-list">
+                    {% for question in questions %}
+                    <li class="media review-item">
+                        <div class="media-body">
+                            <span class="float-right">
+                                <small>{{ question.date }}</small>
+                            </span>
+                            <strong>
+                                {{ question.title }}
+                            </strong>
+                            <p>
+                                {{ question.description }}
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="answers" role="tabpanel" aria-labelledby="answers-tab">
+                <h1> Answers <small class="float-right">{{ answers.count() }} answers given</small></h1>
+                <ul class="media-list">
+                    {% for answer in answers %}
+                    <li class="media review-item">
+                        <div class="media-body">
+                            <span class="float-right">
+                                <small>{{ answer.date }}</small>
+                            </span>
+                            <strong>
+                                For {{ answer.question.title }}
+                            </strong>
+                            <p>
+                                {{ answer.description }}
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                {% if likes_present %}
+                <h1> Likes over time </h1>
+                <div id="chart_div">
+                    <img src="{{ url_for('profile.vizualise_likes') }}" alt="Seaborn plot">
+                </div>
+                {% else %}
+                <h3> No likes to show yet </h3>
+                {% endif %}
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+</div>
