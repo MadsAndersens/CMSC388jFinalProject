@@ -33,7 +33,18 @@ def search_results(query):
 @forum.route("/question/<question_id>", methods=["GET", "POST"])
 def see_question(question_id):
     question = Question.objects(id=question_id).first()
-    return render_template("see_question.html", question=question)
+    answer_form = AnswerForm()
+    if answer_form.validate_on_submit():
+        answer = Answer(
+            commenter=current_user,
+            question=question,
+            description=answer_form.answer.data,
+            date=current_time(),
+        )
+        answer.save()
+        return redirect(url_for("forum.see_question", question_id=question_id))
+
+    return render_template("see_question.html", question=question, answer_form=answer_form)
 
 # TODO make sure the route is correct
 @forum.route("/posts", methods=["GET", "POST"])
@@ -50,6 +61,7 @@ def make_post():
             likes=0,
         )
         post.save()
+        print("test")
         return redirect(url_for("forum.see_question", question_id=post.id))
 
     return render_template("make_post.html", form=form)

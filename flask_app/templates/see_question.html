@@ -4,15 +4,57 @@
   <div class="col">
     <div class="card text-center">
       <div class="card-header">
-        {{ question.title }} ({{ question.date }})
+        {{ question.title }}
+      </div>
+        <div class="card-header">
+         (Posted on: {{question.date }})
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>Question By:</b> {{ question.commenter }}</li>
+          <li class="list-group-item"><b>Question By:</b> {{ question.commenter.username}}</li>
         </ul>
           {{ question.description }}
       </div>
     </div>
   </div>
 </div>
+    {# Render the answer form #}
+    {% if current_user.is_authenticated %}
+    <div class="row">
+      <div class="col">
+        <div class="card text-center">
+          <div class="card-header">
+            Answer
+          </div>
+          <div class="card-body">
+            <form method="post">
+              {{ answer_form.csrf_token }}
+              {{ answer_form.answer(class="form-control form-control-lg")}}
+                <div class="form-group">
+                     {{ answer_form.submit(class="form-control form-control-lg") }}
+                 </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="row">
+      <div class="col">
+        <div class="card text-center">
+          <div class="card-header">
+            Answer
+          </div>
+          <div class="card-body">
+            <p>Please login to answer this question</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {# Render the answers #}
+    {% for answer in answers %}
+    {# Render the answers #}
+
+
 {% endblock %}
