@@ -11,6 +11,7 @@ class User(db.Document, UserMixin):
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
     total_likes = db.IntField(default=0)
+    likes_over_time = db.ListField()
 
     # Returns unique string identifying our object
     def get_id(self):

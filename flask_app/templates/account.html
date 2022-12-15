@@ -58,7 +58,10 @@
         </ul>
     </div>
     <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-        <!-- TODO: Add stats here -->
+        <h1> Likes over time </h1>
+        <canvas id="myChart" width="400" height="400">
+            {{ likes_plot.show() }}
+        </canvas>
     </div>
 </div>
 {% endblock %}

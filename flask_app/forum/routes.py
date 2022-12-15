@@ -53,6 +53,7 @@ def see_question(question_id):
         # Find the user who made the post and increment their total likes
         user = User.objects(username=question.commenter.username).first()
         user.total_likes += 1
+        user.likes_over_time.append([current_time(),user.total_likes])
         user.save()
         return redirect(url_for("forum.see_question", question_id=question_id))
 

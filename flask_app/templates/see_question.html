@@ -31,36 +31,36 @@
 
 
     {# Render the answer form #}
-    {% if current_user.is_authenticated %}
-    <div class="row">
-      <div class="col">
-        <div class="card text-center">
-          <div class="card-header">
-            Give your answer here:
-          </div>
-          <div class="card-body">
-            <form method="post">
-              {{ answer_form.csrf_token }}
-              {{ answer_form.answer(class="form-control form-control-lg")}}
-                <div class="form-group">
-                     {{ answer_form.submit(class="form-control form-control-lg") }}
-                 </div>
-            </form>
-          </div>
-        </div>
+{% if current_user.is_authenticated %}
+<div class="row">
+  <div class="col">
+    <div class="card text-center">
+      <div class="card-header">
+        Give your answer here:
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {{ answer_form.csrf_token }}
+          {{ answer_form.answer(class="form-control form-control-lg")}}
+            <div class="form-group">
+                 {{ answer_form.submit(class="form-control form-control-lg") }}
+             </div>
+        </form>
       </div>
     </div>
-    {% else %}
-    <div class="row">
-      <div class="col">
-        <div class="card text-center">
-          <div class="card-body">
-            <p>Please login to answer this question</p>
-          </div>
-        </div>
+  </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col">
+    <div class="card text-center">
+      <div class="card-body">
+        <p>Please login to answer this question</p>
       </div>
     </div>
-    {% endif %}
+  </div>
+</div>
+{% endif %}
 
     {# Render the answers #}
 {% if answers%}
