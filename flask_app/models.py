@@ -21,6 +21,7 @@ class Question(db.Document):
     title = db.StringField(required=True, unique=True)
     description = db.StringField(description=True)
     date = db.StringField(required=True)
+    likes = db.IntField()
 
 class Answer(db.Document):
     commenter = db.ReferenceField(User, required=True)

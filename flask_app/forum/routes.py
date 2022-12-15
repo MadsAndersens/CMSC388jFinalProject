@@ -17,9 +17,7 @@ def index():
     search_form = SearchForm()
     if search_form.validate_on_submit():
         return redirect(url_for("forum.search_results", query=search_form.search_query.data))
-
     return render_template("index.html", search_form=search_form)
-
 
 @forum.route("/see_all_questions",methods=["GET", "POST"])
 def see_all_questions():
@@ -32,15 +30,13 @@ def search_results(query):
     search_results = Question.objects(title__icontains=query)
     return render_template("search_results.html", search_results=search_results, query=query)
 
-
 @forum.route("/question/<question_id>", methods=["GET", "POST"])
 def see_question(question_id):
     question = Question.objects(id=question_id).first()
-    return render_template("forum.see_question.html", question=question)
-
+    return render_template("see_question.html", question=question)
 
 # TODO make sure the route is correct
-@forum.route("/posts/<post_title>", methods=["GET", "POST"])
+@forum.route("/posts", methods=["GET", "POST"])
 @login_required
 def make_post():
     # TODO make sure the below works
@@ -50,17 +46,19 @@ def make_post():
             commenter=current_user._get_current_object(),
             title=form.title.data,
             description=form.description.data,
-            date=current_time()
+            date=current_time(),
+            likes=0,
         )
         post.save()
+        return redirect(url_for("forum.see_question", question_id=post.id))
 
-        return redirect(request.path)
+    return render_template("make_post.html", form=form)
 
-    # TODO Figure out what questions should be... I think maybe we don't need this line below
-    questions = Question.objects(commenter=current_user._get_current_object())
+  #  # TODO Figure out what questions should be... I think maybe we don't need this line below
+  #  questions = Question.objects(commenter=current_user._get_current_object())
 
-    # TODO render appropriate template with corresponding data for it
-    return render_template("404.html", form=form)
+   # # TODO render appropriate template with corresponding data for it
+   # return render_template("404.html", form=form)
 
 
 # TODO make sure the route is correct
