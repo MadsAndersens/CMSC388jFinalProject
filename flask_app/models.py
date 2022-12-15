@@ -16,6 +16,7 @@ class User(db.Document, UserMixin):
         return self.username
 
 class Question(db.Document):
+
     commenter = db.ReferenceField(User, required=True)
     title = db.StringField(required=True, unique=True)
     description = db.StringField(description=True)
