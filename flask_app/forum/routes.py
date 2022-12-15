@@ -11,20 +11,20 @@ from flask_app.utils import current_time
 
 forum = Blueprint("forum", __name__)
 
-app = Flask("App")
+app = Flask(__name__)
 mail = Mail(app)
+# I only got it to work with outlook 
+MAIL_USERNAME = "" #'yourId@gmail.com' use an outlook account
+MAIL_PASSWORD = "" # password don't merge if using your own
 
-MAIL_USERNAME = "YOUR EMAIL HERE" #'yourId@gmail.com'
-MAIL_PASSWORD = "YOUR PASSWORD HERE" # password don't merge if using your own
-
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
+app.config['MAIL_SERVER']='smtp-mail.outlook.com'
+app.config['MAIL_PORT'] = 587
 # Enter your own email credentials here for testing and remove
 # before pushing on github
 app.config['MAIL_USERNAME'] = MAIL_USERNAME
 app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
 
 
@@ -64,7 +64,7 @@ def see_question(question_id):
         question.save()
 
         # Send email to person who asked question that a user answered
-        msg = Message('Hello', sender = 'yourId@gmail.com', recipients = [question.commenter.email])
+        msg = Message('Hello', sender = MAIL_USERNAME, recipients = [question.commenter.email,MAIL_USERNAME])
         msg.body = answer.commenter.username + "responded to your question!"
         mail.send(msg)
 
@@ -139,3 +139,6 @@ def make_reply(post_title):
 
     # TODO render appropriate template with corresponding data for it
     return render_template("404.html", form=form)
+
+if __name__ == '__main__':
+   app.run(debug = True)
