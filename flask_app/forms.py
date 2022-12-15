@@ -17,13 +17,13 @@ from .models import User
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired(), Email()])
-    password = StringField("Password", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired()])
     submit = SubmitField("Login")
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired(), Length(min=4, max=15)])
     email = EmailField("Email", validators=[InputRequired(), Email()])
-    password = StringField("Password", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired()])
     confirm_password = PasswordField(
         "Retype Password", validators=[InputRequired(), EqualTo("password")]
     )

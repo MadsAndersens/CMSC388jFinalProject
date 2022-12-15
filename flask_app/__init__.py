@@ -9,7 +9,7 @@ from flask_login import (
 )
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
-#from flask_talisman import Talisman
+from flask_talisman import Talisman
 from flask_mail import Mail
 
 # stdlib
@@ -38,7 +38,15 @@ def create_app():
     mail = Mail(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
-    #Talisman(app)
+
+    #This allows us to still use the js scripts
+    csp = {
+        'script-src': ["https://code.jquery.com/jquery-3.4.1.slim.min.js",
+                       "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js",
+                       "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"]
+    }
+
+    Talisman(app, content_security_policy=csp)
 
     app.register_blueprint(loginreg)
     app.register_blueprint(profile)

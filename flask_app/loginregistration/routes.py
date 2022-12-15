@@ -13,6 +13,7 @@ def login():
         return redirect(url_for("forum.index"))
 
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.objects(username=form.email.data).first()
 
