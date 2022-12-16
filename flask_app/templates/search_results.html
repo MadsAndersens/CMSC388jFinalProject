@@ -8,7 +8,7 @@
         </div>
     {% else %}
         <h1> Search results for {{ query }}</h1>
-        {% for result in results %}
+       {% for result in search_results %}
             <div class = "row">
                 <div class = "col-md-12">
                     <h2> {{ result.title }} </h2>
@@ -17,7 +17,7 @@
                     {# Redirect to see_question #}
                 <div class = "row">
                     <div class = "col-md-12">
-                        <a class = "btn btn-primary" href = "{{ url_for('forum.see_question', question_id = question.id) }}"> See question </a>
+                         <a class = "btn btn-primary" href = "{{ url_for('forum.see_question', question_id = result.id) }}"> See question </a>
                     </div>
                 </div>
             </div>

@@ -41,5 +41,10 @@
         </div>
     </div>
 </div>
-
+{% if dublicate_flag %}
+    <div>
+        <h6> We found another subject matching yours:</h6>
+        <a href="{{ url_for('forum.see_question',question_id = id_reference) }}"> Take me there</a>
+    </div>
+{% endif %}
 {% endblock %}

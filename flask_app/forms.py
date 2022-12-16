@@ -60,7 +60,7 @@ class UpdateProfileForm(FlaskForm):
             raise ValidationError("Username is taken")
 
 class QuestionForm(FlaskForm):
-    title = StringField("Title", validators=[InputRequired()])
+    title = StringField("Subject:", validators=[InputRequired()])
     description = TextAreaField("Description", validators=[InputRequired()])
     submit = SubmitField("Submit")
 

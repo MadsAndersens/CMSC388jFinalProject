@@ -92,17 +92,24 @@ def see_question(question_id):
 def make_post():
     # TODO make sure the below works
     form = QuestionForm()
-    if form.validate_on_submit() and current_user.is_authenticated:
-        post = Question(
-            commenter=current_user._get_current_object(),
-            title=form.title.data,
-            description=form.description.data,
-            date=current_time(),
-            likes=0,
-        )
-        post.save()
-        print("test")
-        return redirect(url_for("forum.see_question", question_id=post.id))
+    dublicate_flag = False
+    try:
+        if form.validate_on_submit() and current_user.is_authenticated:
+            post = Question(
+                commenter=current_user._get_current_object(),
+                title=form.title.data,
+                description=form.description.data,
+                date=current_time(),
+                likes=0,
+            )
+            post.save()
+            print("test")
+            return redirect(url_for("forum.see_question", question_id=post.id))
+    except:
+        dublicate_flag = True
+        title = form.title.data
+        ref = Question.objects(title = title).first()
+        return render_template("make_post.html", form=form, id_reference=ref.id, dublicate_flag=dublicate_flag)
 
     return render_template("make_post.html", form=form)
 
