@@ -1,15 +1,22 @@
 {% extends "header.html" %}
 {% block content %}
-    <h3> Scroll through all of the questions here:</h3>
-
-    {% if questions %}
-    <ul>
-        {% for question in questions %}
-            <li><a href="{{ url_for('forum.see_question', question_id=question.id) }}">{{ question.title }}</a></li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <p>There are no questions yet.</p>
-    {% endif %}
+<h3> Scroll through all of the questions here:</h3>
+{% if questions %}
+{% for question in questions %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{{ url_for('forum.see_question', question_id=question.id) }}">{{ question.title }}</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ question.commenter.username }}</h6>
+                <p class="card-text">{{ question.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p>There are no questions yet.</p>
+{% endif %}
 
 {% endblock %}

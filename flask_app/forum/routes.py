@@ -39,7 +39,7 @@ def index():
 @forum.route("/see_all_questions",methods=["GET", "POST"])
 def see_all_questions():
     all_posts = Question.objects.all()
-    return render_template("see_all_questions.html", all_posts=all_posts)
+    return render_template("see_all_questions.html", questions=all_posts)
 
 #View function for searching in questions
 @forum.route("/search_results/<query>", methods=["GET", "POST"])

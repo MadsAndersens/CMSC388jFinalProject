@@ -3,7 +3,7 @@
 
 <div class="container h-100 d-flex justify-content-center">
     <div class="jumbotron my-auto">
-      <h4 class="display-3">Search for other posts</h4>
+        <h4 class="display-3">Search for other posts</h4>
         <form action="/" class="form-inline my-2 my-lg-0" method="POST">
             {{ search_form.csrf_token }}
             {{ search_form.search_query(class="form-control", placeholder="Search") }}
@@ -16,8 +16,7 @@
             {% endif %}
             {{ search_form.submit(class="btn btn-outline-success") }}
         </form>
+        <a href="{{ url_for('forum.see_all_questions') }}">Or, show all questions</a>
     </div>
 </div>
-
-
 {% endblock %}

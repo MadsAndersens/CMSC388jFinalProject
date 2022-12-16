@@ -66,7 +66,7 @@
                                 <small>{{ question.date }}</small>
                             </span>
                             <strong>
-                                {{ question.title }}
+                                <a href="{{ url_for('forum.see_question', question_id=question.id) }}">{{ question.title }}</a>
                             </strong>
                             <p>
                                 {{ question.description }}
@@ -86,7 +86,7 @@
                                 <small>{{ answer.date }}</small>
                             </span>
                             <strong>
-                                For {{ answer.question.title }}
+                                For <a href="{{ url_for('forum.see_question', question_id=answer.question.id) }}">{{ answer.question.title }}</a>
                             </strong>
                             <p>
                                 {{ answer.description }}
