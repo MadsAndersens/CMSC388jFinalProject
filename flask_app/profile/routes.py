@@ -51,6 +51,8 @@ def account():
 @login_required
 def vizualise_likes():
     matplotlib.use('SVG')
+    # Set sns style
+    sns.set_style("darkgrid")
     fig,ax = plt.subplots(figsize=(10,5))
     user = User.objects(username=current_user.username).first()
     list_of_likes = user.likes_over_time
@@ -58,7 +60,7 @@ def vizualise_likes():
     y = [date[1] for date in list_of_likes]
     print(x)
     sns.lineplot(x=x, y=y,ci=None)
-    ax.set_xticklabels(x, rotation=45)
+    ax.set_xticklabels(x, rotation=0)
     canvas = FigureCanvas(fig)
     img = io.BytesIO()
     fig.savefig(img, format='png')

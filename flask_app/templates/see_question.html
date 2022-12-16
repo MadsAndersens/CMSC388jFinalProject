@@ -46,6 +46,13 @@
                  {{ answer_form.submit(class="form-control form-control-lg") }}
              </div>
         </form>
+           {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class=flashes>
+                  {{ messages[0] }}
+                </ul>
+              {% endif %}
+            {% endwith %}
       </div>
     </div>
   </div>

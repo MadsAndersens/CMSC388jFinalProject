@@ -64,9 +64,14 @@ def see_question(question_id):
         question.save()
 
         # Send email to person who asked question that a user answered
-        msg = Message('Hello', sender = MAIL_USERNAME, recipients = [question.commenter.email,MAIL_USERNAME])
-        msg.body = answer.commenter.username + "responded to your question!"
-        mail.send(msg)
+        try:
+            msg = Message('Hello', sender=MAIL_USERNAME, recipients=[question.commenter.email, MAIL_USERNAME])
+            msg.body = answer.commenter.username + "responded to your question!"
+            mail.send(msg)
+        except:
+            failed_send = "Failed to send email please check your email credentials"
+            flash(failed_send, "danger")
+            return redirect(url_for("forum.see_question", question_id=question_id))
 
         return redirect(url_for("forum.see_question", question_id=question_id))
 
