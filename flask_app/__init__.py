@@ -12,8 +12,7 @@ from werkzeug.utils import secure_filename
 from flask_talisman import Talisman
 from flask_mail import Mail
 
-import os from mongoengine
-import connect
+from mongoengine import connect
 
 # stdlib
 import os
