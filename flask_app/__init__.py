@@ -12,6 +12,9 @@ from werkzeug.utils import secure_filename
 from flask_talisman import Talisman
 from flask_mail import Mail
 
+import os from mongoengine
+import connect
+
 # stdlib
 import os
 from datetime import datetime
@@ -19,6 +22,7 @@ from datetime import datetime
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+connect(host=os.environ['MONGODB_CONNECTION_STRING'])
 
 def create_app():
     app = Flask(__name__)
@@ -38,6 +42,7 @@ def create_app():
     mail = Mail(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
+
 
     #This allows us to still use the js scripts
     csp = {
