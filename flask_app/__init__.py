@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from flask_talisman import Talisman
 from flask_mail import Mail
 
-from mongoengine import connect
+from mongoengine import connect,disconnect
 
 # stdlib
 import os
@@ -21,7 +21,8 @@ from datetime import datetime
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-connect(host=os.environ['MONGODB_CONNECTION_STRING'])
+#disconnect()
+#connect(host='mongodb+srv://madsAdmin:<Hv06f19!>@cluster0.0lgtmg5.mongodb.net/?retryWrites=true&w=majority')
 
 def create_app():
     app = Flask(__name__)
