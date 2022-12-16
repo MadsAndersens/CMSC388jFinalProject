@@ -14,8 +14,8 @@ forum = Blueprint("forum", __name__)
 app = Flask(__name__)
 mail = Mail(app)
 # I only got it to work with outlook 
-MAIL_USERNAME = "" #'yourId@gmail.com' use an outlook account
-MAIL_PASSWORD = "" # password don't merge if using your own
+MAIL_USERNAME = "cmsc388j@outlook.com" #'yourId@gmail.com' use an outlook account
+MAIL_PASSWORD = "cmscfinal388j" # password don't merge if using your own
 
 app.config['MAIL_SERVER']='smtp-mail.outlook.com'
 app.config['MAIL_PORT'] = 587
@@ -151,6 +151,9 @@ def make_reply(post_title):
 
     # TODO render appropriate template with corresponding data for it
     return render_template("404.html", form=form)
+@forum.route("/about")
+def about():
+    return render_template("about.html")
 
 if __name__ == '__main__':
    app.run(debug = True)
